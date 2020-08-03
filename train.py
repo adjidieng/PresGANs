@@ -33,7 +33,7 @@ def dcgan(dat, netG, netD, args):
             real_cpu = X_training[i:i+stop].to(device)
 
             batch_size = real_cpu.size(0)
-            label = torch.full((batch_size,), real_label, device=device)
+            label = torch.full((batch_size,), real_label, device=device, dtype=torch.int8)
 
             output = netD(real_cpu)
             errD_real = criterion(output, label)
@@ -100,7 +100,7 @@ def presgan(dat, netG, netD, log_sigma, args):
             real_cpu = X_training[i:i+stop].to(device)
 
             batch_size = real_cpu.size(0)
-            label = torch.full((batch_size,), real_label, device=device)
+            label = torch.full((batch_size,), real_label, device=device, dtype=torch.float32)
 
             noise_eta = torch.randn_like(real_cpu)
             noised_data = real_cpu + sigma_x.detach() * noise_eta
